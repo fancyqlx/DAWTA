@@ -21,11 +21,17 @@
 #include <string>
 #include <cstring>
 #include <iostream>
+using std::cout;
+using std::endl;
+using std::cin;
+
 #include <vector>
 #include <queue>
 #include <bitset>
 #include <algorithm>
 #include <map>
+#include <fstream>
+using std::ofstream;
 
 #include <memory>
 #include <thread>
@@ -70,6 +76,6 @@ BigInteger generateRandom();
         
 std::string hashFunc(std::string key, std::string plain);
 
-
+BigInteger hexToDecimal(std::string hex);
 
 #endif

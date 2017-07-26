@@ -5,17 +5,17 @@ SRC_OBJ = $(patsubst %.cpp, %.o, ${SRC})
 
 VPATH = ./socketx/src:./bigint:./cryptopp
 CFLAGS += -I./socketx/src -I./bigint -I./cryptopp -std=c++11 \
-	-pthread -L$(DIR_LIB) -lsocketx -lbigint -lcryptopp
+	-pthread -L$(DIR_LIB) -lsocketx -lbigint -lcryptopp -g
 
 DAWTA: $(DIR_SRC)/aggregator $(DIR_SRC)/participant
 
-$(DIR_SRC)/aggregator: $(DIR_SRC)/aggregator.o $(DIR_SRC)/dawta.o
-	g++ $(DIR_SRC)/aggregator.o $(DIR_SRC)/dawta.o $(CFLAGS) -o $(DIR_SRC)/aggregator
+$(DIR_SRC)/aggregator: $(DIR_SRC)/dawta.o $(DIR_SRC)/aggregator.o
+	g++ $(DIR_SRC)/dawta.o $(DIR_SRC)/aggregator.o $(CFLAGS) -o $(DIR_SRC)/aggregator
 
-$(DIR_SRC)/participant: $(DIR_SRC)/participant.o
-	g++ $(DIR_SRC)/participant.o $(DIR_SRC)/dawta.o $(CFLAGS) -o $(DIR_SRC)/participant
+$(DIR_SRC)/participant: $(DIR_SRC)/dawta.o $(DIR_SRC)/participant.o
+	g++ $(DIR_SRC)/dawta.o $(DIR_SRC)/participant.o $(CFLAGS) -o $(DIR_SRC)/participant
 
-$(DIR_SRC)/%.o:$(DIR_SRC)/%.cpp $(DIR_SRC)/dawta.hpp
+$(DIR_SRC)/%.o:$(DIR_SRC)/%.cpp
 	g++ $(CFLAGS) -c $< -o $@
 
 .PHONY: clean
