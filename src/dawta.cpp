@@ -4,8 +4,8 @@ BigInteger generateY(BigInteger x){
     BigInteger ret = G;
     printf("begin generateY....\n");
     while(x != BigInteger(ZERO)){
-	ret *= G;
-	--x;
+		ret *= G;
+		--x;
     }
     printf("end generateY....\n");
     return ret%P;
@@ -50,7 +50,7 @@ BigInteger hexToDecimal(std::string hex){
 		{'A',10},{'B',11},{'C',12},{'D',13},{'E',14},{'F',15}
 	};
 	BigInteger ret;
-	for(int i=hex.size()-1;i>=0;--i){
+	for(int i=0;i<hex.size();++i){
 		if(isdigit(hex[i])){
 			ret = ret * 16 + (hex[i]-'0');
 		}
