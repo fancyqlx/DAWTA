@@ -1,3 +1,6 @@
 [submodule "socketx"]
 	path = socketx
 	url = git@github.com:fancyqlx/socketx
+[submodule "cryptopp"]
+	path = cryptopp
+	url = git@github.com:weidai11/cryptopp

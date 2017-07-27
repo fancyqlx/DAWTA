@@ -62,6 +62,7 @@ using CryptoPP::HexEncoder;
 using CryptoPP::StringSink;
 using CryptoPP::StringSource;
 using CryptoPP::HashFilter;
+using CryptoPP::byte;
 
 
 const BigInteger P = stringToBigInteger(std::string("340282363487254643170864374573732807431"));
