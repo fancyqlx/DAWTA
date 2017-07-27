@@ -64,6 +64,14 @@ long long int stage2(std::shared_ptr<socketx::Connection> conn, std::string key1
     return randomNum;
 }
 
+/*Send randomNum, key1, key2 to server*/
+int stage3(std::shared_ptr<socketx::Connection> conn, long long int randomNum, std::string key1, std::string key2){
+    std::string str = std::to_string(randonNum)  + " ";
+    str += key1 + " " + key2 + " ";
+    socketx::Message msg(const_cast<char *>(str.c_str()),str.size()+1);
+    
+}
+
 class EchoClient{
     public:
         EchoClient(socketx::EventLoop *loop, std::string hostname, std::string port)

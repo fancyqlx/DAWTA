@@ -6,6 +6,9 @@
 std::vector<std::shared_ptr<socketx::Connection>> connectionList;
 std::map<std::shared_ptr<socketx::Connection>, socketx::Message> stage1_map;
 std::map<std::shared_ptr<socketx::Connection>, std::vector<BigInteger>> stage2_map;
+std::vector<BigInteger> sum_vec(N,BigInteger());
+std::vector<std::pair<long long int, long long int>> stage3_vec;
+std::map<std::shared_ptr<socketx::Connection>, std::vector<BigInteger>> stage3_map;
 std::mutex mut;
 
 int stage1(std::shared_ptr<socketx::Connection> conn){
@@ -45,7 +48,6 @@ int stage2(std::shared_ptr<socketx::Connection> conn){
         return 2;
     }
     std::string cryptoStr(msg.getData());
-    cout<<cryptoStr<<endl;
     std::ofstream fout("./data/aggregator_logs", std::ofstream::out | std::ofstream::app);
     fout<<"fd = "<<conn->getFD()<<" "<<"cryptoStr = "<<cryptoStr<<endl;
     fout.close();
@@ -65,7 +67,6 @@ int stage2(std::shared_ptr<socketx::Connection> conn){
     stage2_map[conn] = crypto_vec;
 
     /*Compute the vector of the sum of crypto_vec*/
-    std::vector<BigInteger> sum_vec(N,BigInteger());
     auto it = std::find(connectionList.begin(),connectionList.end(),conn);
     if(it+1 == connectionList.end() && connectionList.size()==N){
         for(int i=0;i<N;++i){
@@ -87,10 +88,37 @@ int stage2(std::shared_ptr<socketx::Connection> conn){
     return 2;
 }
 
+/*
+*  Receive interval [left,right], partition, crypto_vec
+*/
+int stage3(std::shared_ptr<socketx::Connection> conn){
+    socketx::Message msg = conn->recvmsg();
+    if(msg.getSize()==0){
+        conn->handleClose();
+        return 2;
+    }
+    std::string cryptoStr(msg.getData());
+    std::ofstream fout("./data/aggregator_logs", std::ofstream::out | std::ofstream::app);
+    fout<<"fd = "<<conn->getFD()<<" "<<"cryptoStr = "<<cryptoStr<<endl;
+    fout.close();
+
+    /*Construct vector of cryptoStr*/
+    std::vector<BigInteger> crypto_vec;
+    size_t begin = 0;
+    for(begin==cryptoStr.size()){
+        auto pos = cryptoStr.find(" ", begin);
+        std::string str = cryptoStr.substr(begin,pos-begin);
+        cout<<str<<endl;
+        crypto_vec.push_back(stringToBigInteger(str));
+        begin = pos + 1;
+    }
+    stage3_map[conn] = crypto_vec;
+}
+
 class Aggregator{
     public:
         Aggregator(socketx::EventLoop *loop, std::string port)
-        :loop_(loop), port_(port), stage(1),
+        :loop_(loop), port_(port), stage(1), step_stage3(1),
         server_(std::make_shared<socketx::Server>(loop,port)){
             server_->setHandleConnectionFunc(std::bind(&Aggregator::handleConnection, this, std::placeholders::_1));
             server_->setHandleCloseEvents(std::bind(&Aggregator::handleCloseEvents, this, std::placeholders::_1));
@@ -140,6 +168,7 @@ class Aggregator{
 
         /*Record stage*/
         int stage;
+        int step_stage3;
 };
 
 
