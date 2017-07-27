@@ -36,9 +36,9 @@ std::string hashFunc(std::string key, std::string plain){
 
 	encoded.clear();
 	StringSource(mac, true,
-		new Base64Encoder(
+		new HexEncoder(
 			new StringSink(encoded)
-		) // Base64Encoder
+		) // HexEncoder
 	); // StringSource
 	std::cout << "encode: " << encoded << std::endl;
 	return encoded;

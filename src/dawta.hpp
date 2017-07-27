@@ -44,21 +44,20 @@ using std::ofstream;
 #include <chrono>
 
 #include <random>
+#include <assert.h>
 
 #include "BigIntegerLibrary.hh"
 
 #include "cryptlib.h"
 using CryptoPP::Exception;
-
 #include "hmac.h"
 using CryptoPP::HMAC;
-
 #include "sha.h"
 using CryptoPP::SHA256;
-
 #include "base64.h"
 using CryptoPP::Base64Encoder;
-
+#include "hex.h"
+using CryptoPP::HexEncoder;
 #include "filters.h"
 using CryptoPP::StringSink;
 using CryptoPP::StringSource;

@@ -17,18 +17,21 @@ std::string stage1(std::shared_ptr<socketx::Connection> conn){
     return key2;
 }
 
-void stage2(std::shared_ptr<socketx::Connection> conn, std::string key1, std::string key2){
+long long int stage2(std::shared_ptr<socketx::Connection> conn, std::string key1, std::string key2){
     /*Generate random number between [1,n^5]*/
     std::random_device rd;
     std::mt19937_64 e2(rd());
     std::uniform_int_distribution<long long int> dist(std::llround(1),std::llround(std::pow(N,5)));
-    auto num = dist(e2);
+    long long int randomNum = dist(e2);
+    cout<<"RandomNum: "<<randomNum<<endl;
+
     /*Construct a vector to  determine into which interval the random number falls*/
     auto interval = std::llround(std::pow(N,5))/N;
+    cout<<"Interval: "<<interval<<endl;
     long long int left = 0, right = interval;
     std::vector<int> vec(N,0);
-    for(int i=0;i<N;+i){
-        if(num>=left && num<=right){
+    for(int i=0;i<N;++i){
+        if(randomNum>=left && randomNum<=right){
             vec[i] = 1;
             break;
         }
@@ -38,7 +41,27 @@ void stage2(std::shared_ptr<socketx::Connection> conn, std::string key1, std::st
         }
     }
 
+    /*Encrypt the vector by hash code*/
+    std::string hashCode1 = hashFunc(key1,std::to_string(N));
+    std::string hashCode2 = hashFunc(key2,std::to_string(N));
+    BigInteger F = (hexToDecimal(hashCode1)-hexToDecimal(hashCode2));
+    std::string cryptoStr = "";
+    for(int i=0;i<N;++i){
+        if(vec[i]){
+            cryptoStr += bigIntegerToString((F+1)) + " ";
+        }
+        else 
+            cryptoStr += bigIntegerToString(F) + " ";
+    }
 
+    ofstream fout("./data/participants_logs",ofstream::out | ofstream::app);
+    fout<<"fd = "<<conn->getFD()<<" "<<"cryptoStr = "<<cryptoStr<<endl;
+    fout.close();
+    /*Send messages to the server*/
+    socketx::Message msg(const_cast<char*>(cryptoStr.c_str()),cryptoStr.size()+1);
+    conn->sendmsg(msg);
+    printf("Sending crypto string to the server\n");
+    return randomNum;
 }
 
 class EchoClient{
@@ -60,7 +83,7 @@ class EchoClient{
 
             key1 = bigIntegerToString(generateRandom());
             
-            conn->sendmsg(socketx::Message(const_cast<char*>(key1.c_str()),key1.size()));
+            conn->sendmsg(socketx::Message(const_cast<char*>(key1.c_str()),key1.size()+1));
 
             printf("Sending key1 %s to server...\n", key1.c_str());
             ofstream fout("./data/participants_logs",ofstream::out | ofstream::app);
@@ -74,6 +97,8 @@ class EchoClient{
                 fout.close();
 
                 key2 = stage1(conn);
+                ++stage;
+                randomNum = stage2(conn,key1,key2);
                 ++stage;
             }
         }
@@ -91,6 +116,8 @@ class EchoClient{
         std::string key2;
         /*Record the current stage*/
         int stage;
+        /*Random number */
+        long long int randomNum;
 };
 
 
@@ -116,6 +143,7 @@ int main(int argc, char **argv){
     }
     /*Start N client*/
     for(int i=0;i<N;++i){
+        printf("Start new client\n");
         clientList[i]->start();
     }
     loop.loop();
