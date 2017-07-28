@@ -65,6 +65,8 @@ using CryptoPP::StringSource;
 using CryptoPP::HashFilter;
 using CryptoPP::byte;
 
+#include "Connection.hpp"
+
 
 const BigInteger P = stringToBigInteger(std::string("340282363487254643170864374573732807431"));
 const BigInteger G = BigInteger(2);
@@ -74,9 +76,21 @@ const int N = 3;
 BigInteger generateY(BigInteger x);
 
 BigInteger generateRandom();
+BigInteger generateRandom(int bits);
         
 std::string hashFunc(std::string key, std::string plain);
 
 BigInteger hexToDecimal(std::string hex);
+
+size_t recursion(std::vector<std::pair<unsigned long long int,unsigned long long int>> &range, 
+				const std::map<std::shared_ptr<socketx::Connection>, std::vector<std::string>> &stage3_map,
+				unsigned long long int left, unsigned long long int right, int num);
+
+
+std::vector<BigInteger> simulateStage4(const std::map<std::shared_ptr<socketx::Connection>, std::vector<std::string>> &stage3_map, 
+							const std::map<int, std::shared_ptr<socketx::Connection>> &stage4_map, size_t &bitComplexity);
+
+
+const BigInteger M = generateRandom(64);
 
 #endif
