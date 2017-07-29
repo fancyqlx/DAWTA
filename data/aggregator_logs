@@ -1,38 +1,42 @@
-Start the experiment of 3 participants. M = 17354855457335410126
+Start the experiment of 10 participants. M = 17206141648941585240
 fd = 4 stage = 1
-fd = 4 key = 9886092877734643292
 fd = 5 stage = 1
-fd = 5 key = 9751498057807711151
 fd = 6 stage = 1
-fd = 6 key = 14127233188369086507
+fd = 7 stage = 1
+fd = 8 stage = 1
+fd = 9 stage = 1
+fd = 10 stage = 1
+fd = 11 stage = 1
+fd = 12 stage = 1
+fd = 13 stage = 1
 fd = 4 stage = 2
-fd = 4 cryptoStr = 2391739852945708836 2391739852945708836 2391739852945708837 
 fd = 5 stage = 2
-fd = 5 cryptoStr = 8809935296943201321 8809935296943201320 8809935296943201320 
 fd = 6 stage = 2
-fd = 6 cryptoStr = 7313309756573480830 7313309756573480830 7313309756573480831 
-fd = 6 sum_vec = 
-1160129449126980861 1160129449126980860 1160129449126980862 
+fd = 7 stage = 2
+fd = 8 stage = 2
+fd = 9 stage = 2
+fd = 10 stage = 2
+fd = 11 stage = 2
+fd = 12 stage = 2
+fd = 13 stage = 2
 fd = 4 stage = 3
-fd = 4 parameterStr = 201 9886092877734643292 14127233188369086507 
-fd = 4 size of parameter_vec = 3
-201 9886092877734643292 14127233188369086507 
 fd = 5 stage = 3
-fd = 5 parameterStr = 69 9751498057807711151 9886092877734643292 
-fd = 5 size of parameter_vec = 3
-69 9751498057807711151 9886092877734643292 
 fd = 6 stage = 3
-fd = 6 parameterStr = 239 14127233188369086507 9751498057807711151 
-fd = 6 size of parameter_vec = 3
-239 14127233188369086507 9751498057807711151 
-rangeStr = 0 81 162 202 202 242 
-fd = 3 rangeStr = 0 81 162 202 202 242 
-fd = 4 rangeStr = 0 81 162 202 202 242 
-fd = 5 rangeStr = 0 81 162 202 202 242 
+fd = 7 stage = 3
+fd = 8 stage = 3
+fd = 9 stage = 3
+fd = 10 stage = 3
+fd = 11 stage = 3
+fd = 12 stage = 3
+fd = 13 stage = 3
 fd = 4 stage = 4
-fd = 4 IDStr = 2
 fd = 5 stage = 4
-fd = 5 IDStr = 1
 fd = 6 stage = 4
-fd = 6 IDStr = 3
-finalResults = 69 201 239 
+fd = 7 stage = 4
+fd = 8 stage = 4
+fd = 9 stage = 4
+fd = 10 stage = 4
+fd = 11 stage = 4
+fd = 12 stage = 4
+fd = 13 stage = 4
+finalResults = 8547 10995 17091 48378 51343 59063 74340 76201 82962 90023 

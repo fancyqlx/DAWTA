@@ -1,22 +1,51 @@
-Start the experiment of 3 participants. M = 9257492453231195493
-fd = 3 key1 = 9886092877734643292
-fd = 4 key1 = 9751498057807711151
-fd = 5 key1 = 14127233188369086507
+Start the experiment of 10 participants. M = 10912912358692285130
+fd = 3 key1 = 11960236422180111314
+fd = 4 key1 = 13358958754546088167
+fd = 5 key1 = 11250023696763522511
+fd = 6 key1 = 13624937193150470955
+fd = 7 key1 = 14366420036744449179
+fd = 8 key1 = 16253284405605988556
+fd = 9 key1 = 16486238010749413501
+fd = 10 key1 = 15482936195345117494
+fd = 11 key1 = 16605410790788262305
+fd = 12 key1 = 15885607385788389910
 fd = 3 stage = 1
-fd = 3 key2 = 14127233188369086507
-fd = 3 cryptoStr = 2391739852945708836 2391739852945708836 2391739852945708837 
 fd = 4 stage = 1
-fd = 4 key2 = 9886092877734643292
-fd = 4 cryptoStr = 8809935296943201321 8809935296943201320 8809935296943201320 
 fd = 5 stage = 1
-fd = 5 key2 = 9751498057807711151
-fd = 5 cryptoStr = 7313309756573480830 7313309756573480830 7313309756573480831 
+fd = 6 stage = 1
+fd = 7 stage = 1
+fd = 8 stage = 1
+fd = 9 stage = 1
+fd = 10 stage = 1
+fd = 11 stage = 1
+fd = 12 stage = 1
 fd = 3 stage = 3
 fd = 4 stage = 3
 fd = 5 stage = 3
+fd = 6 stage = 3
+fd = 7 stage = 3
+fd = 8 stage = 3
+fd = 9 stage = 3
+fd = 10 stage = 3
+fd = 11 stage = 3
+fd = 12 stage = 3
 fd = 3 stage = 4
-fd = 3 ID = 2
+fd = 3 ID = 5
 fd = 4 stage = 4
-fd = 4 ID = 1
+fd = 4 ID = 4
 fd = 5 stage = 4
-fd = 5 ID = 3
+fd = 5 ID = 7
+fd = 6 stage = 4
+fd = 6 ID = 6
+fd = 7 stage = 4
+fd = 7 ID = 10
+fd = 8 stage = 4
+fd = 8 ID = 3
+fd = 9 stage = 4
+fd = 9 ID = 9
+fd = 10 stage = 4
+fd = 10 ID = 1
+fd = 11 stage = 4
+fd = 11 ID = 2
+fd = 12 stage = 4
+fd = 12 ID = 8

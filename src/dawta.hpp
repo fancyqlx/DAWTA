@@ -32,7 +32,9 @@ using std::cin;
 #include <map>
 #include <fstream>
 #include <utility>
+#include <tuple>
 using std::ofstream;
+using std::ifstream;
 
 #include <memory>
 #include <thread>
@@ -71,7 +73,10 @@ using CryptoPP::byte;
 const BigInteger P = stringToBigInteger(std::string("340282363487254643170864374573732807431"));
 const BigInteger G = BigInteger(2);
 const int ZERO = 0;
-const int N = 3;
+
+extern int N;
+extern BigInteger M;
+extern int bits;
 
 BigInteger generateY(BigInteger x);
 
@@ -90,7 +95,6 @@ size_t recursion(std::vector<std::pair<unsigned long long int,unsigned long long
 std::vector<BigInteger> simulateStage4(const std::map<std::shared_ptr<socketx::Connection>, std::vector<std::string>> &stage3_map, 
 							const std::map<int, std::shared_ptr<socketx::Connection>> &stage4_map, size_t &bitComplexity);
 
-
-const BigInteger M = generateRandom(64);
+std::tuple<int,int,BigInteger> readConfig();
 
 #endif

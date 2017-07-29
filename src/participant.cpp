@@ -4,15 +4,18 @@
 #include "BigIntegerLibrary.hh"
 #include "dawta.hpp"
 
+/* auto config = readConfig();
+int N = config.first;
+BigInteger M = config.second; */
 
 std::string stage1(std::shared_ptr<socketx::Connection> conn){
     socketx::Message msg = conn->recvmsg();
     std::string key2 = std::string(msg.getData());
     printf("Received key2 %s ...\n", key2.c_str());
 
-    ofstream fout("./data/participants_logs",ofstream::out | ofstream::app);
+    /* ofstream fout("./data/participants_logs",ofstream::out | ofstream::app);
     fout<<"fd = "<<conn->getFD()<<" "<<"key2 = "<<key2<<"\n";
-    fout.close();
+    fout.close(); */
 
     return key2;
 }
@@ -52,9 +55,9 @@ unsigned long long int stage2(std::shared_ptr<socketx::Connection> conn, std::st
             cryptoStr += bigIntegerToString(F%M) + " ";
     }
 
-    ofstream fout("./data/participants_logs",ofstream::out | ofstream::app);
+    /* ofstream fout("./data/participants_logs",ofstream::out | ofstream::app);
     fout<<"fd = "<<conn->getFD()<<" "<<"cryptoStr = "<<cryptoStr<<endl;
-    fout.close();
+    fout.close(); */
     /*Send messages to the server*/
     socketx::Message msg(const_cast<char*>(cryptoStr.c_str()),cryptoStr.size()+1);
     conn->sendmsg(msg);
@@ -85,9 +88,9 @@ int stage4(std::shared_ptr<socketx::Connection> conn, unsigned long long int ran
         return -1;
     }
     std::string rangeStr(msg.getData());
-    std::ofstream fout("./data/aggregator_logs", std::ofstream::out | std::ofstream::app);
+    /* std::ofstream fout("./data/aggregator_logs", std::ofstream::out | std::ofstream::app);
     fout<<"fd = "<<conn->getFD()<<" "<<"rangeStr = "<<rangeStr<<endl;
-    fout.close();
+    fout.close(); */
 
     /*Extract ranges*/
     std::vector<std::pair<unsigned long long int,unsigned long long int>> range;
