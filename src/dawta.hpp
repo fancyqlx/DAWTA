@@ -92,6 +92,11 @@ size_t recursion(std::vector<std::pair<unsigned long long int,unsigned long long
 				unsigned long long int left, unsigned long long int right, int num);
 
 
+size_t anti_recursion(std::vector<std::pair<unsigned long long int,unsigned long long int>> &range, 
+                const std::map<std::shared_ptr<socketx::Connection>, std::vector<std::string>> &stage3_map,
+                unsigned long long int left, unsigned long long int right, int num);
+
+
 std::vector<BigInteger> simulateStage4(const std::map<std::shared_ptr<socketx::Connection>, std::vector<std::string>> &stage3_map, 
 							const std::map<int, std::shared_ptr<socketx::Connection>> &stage4_map, size_t &bitComplexity);
 

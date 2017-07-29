@@ -25,16 +25,18 @@ def average(f):
         return sum_bits, sum_time
     return sum_bits/num, sum_time/num
 
-def travelFiles_byN():
+def travelFiles_byN(anti):
     dirPath = "./data"
-    N = 10
-    bits = 16
+    N = 20
+    bits = 64
     x = []
     y = []
     z = []
     files = os.listdir(dirPath)
     for i in xrange(0,10):
         filename = "results_N="+str(N+i*10)+"_bits="+str(bits)
+        if anti:
+            filename = "anti_results_N="+str(N+i*10)+"_bits="+str(bits)
         for fn in files:
             if (not os.path.isdir(fn)) and fn == filename:
                 with open(dirPath+"/"+filename,"r") as f:
@@ -45,9 +47,9 @@ def travelFiles_byN():
                     z.append(dataz)
     return x, y, z
 
-def travelFiles_bybits():
+''' def travelFiles_bybits():
     dirPath = "./data"
-    N = 10
+    N = 20
     bits = 8
     x = []
     y = []
@@ -63,10 +65,10 @@ def travelFiles_bybits():
                     datay, dataz = average(f)
                     y.append(datay)
                     z.append(dataz)
-    return x, y, z
+    return x, y, z '''
 
-def drawPic(x,y,labelx,labely,filename):
-    plt.plot(x,y,"--o")
+def drawPic(x,y,anti_x,anti_y,labelx,labely,filename):
+    plt.plot(x,y,"r-o",anti_x,anti_y,"--o")
     plt.xlabel(labelx)
     plt.ylabel(labely)
     plt.savefig("./data/"+filename+".png")
@@ -74,13 +76,14 @@ def drawPic(x,y,labelx,labely,filename):
     
 
 if __name__ == "__main__":
-    x,y,z = travelFiles_byN()
-    drawPic(x,y,"N","Message Compelxity (bits)","N-bits")
-    drawPic(x,z,"N","Time (ms)","N-time")
+    x,y,z = travelFiles_byN(0)
+    anti_x, anti_y, anti_z = travelFiles_byN(1)
+    drawPic(x,y,anti_x,anti_y,"N","Message Compelxity (bits)","N-bits")
+    drawPic(x,z,anti_x,anti_z,"N","Time (ms)","N-time")
 
-    x,y,z = travelFiles_bybits()
+    ''' x,y,z = travelFiles_bybits()
     drawPic(x,y,"M (bits)","Message Compelxity (bits)","M-bits")
-    drawPic(x,z,"M (bits)","Time (ms)","M-time")
+    drawPic(x,z,"M (bits)","Time (ms)","M-time") '''
 
 
 

@@ -176,13 +176,13 @@ class EchoClient{
                 fout<<"fd = "<<conn->getFD()<<" "<<"ID = "<<ID<<"\n";
                 fout.close();
 
-                ++stage;
                 cout<<"Participant has finished its work...........!"<<endl;
             }
         }
         
         void handleCloseEvents(std::shared_ptr<socketx::Connection> conn){
             printf("Close connection...\n");
+            loop_->quit();
         }
 
     private:
