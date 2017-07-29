@@ -59,7 +59,7 @@ def travelFiles_bybits():
              if (not os.path.isdir(fn)) and fn == filename:
                 with open(dirPath+"/"+filename,"r") as f:
                     print "statistic file: ", filename
-                    x.append(bits+i*12)
+                    x.append(bits+i*8)
                     datay, dataz = average(f)
                     y.append(datay)
                     z.append(dataz)
