@@ -63,15 +63,12 @@ int stage2(std::shared_ptr<socketx::Connection> conn){
         conn->handleClose();
         return 2;
     }
-    /*bitComplexity*/
-    bitComplexity += msg.getSize() * 8;
 
     std::string cryptoStr(msg.getData());
     std::ofstream fout("./data/aggregator_logs", std::ofstream::out | std::ofstream::app);
     fout<<"fd = "<<conn->getFD()<<" "<<"cryptoStr = "<<cryptoStr<<endl;
     fout.close();
 
-    clock_gettime(CLOCK_REALTIME,&time_spec);
     /*Construct vector of cryptoStr*/
     std::vector<BigInteger> crypto_vec;
     size_t begin = 0;
@@ -82,9 +79,6 @@ int stage2(std::shared_ptr<socketx::Connection> conn){
         crypto_vec.push_back(stringToBigInteger(str));
         begin = pos + 1;
     }
-    clock_gettime(CLOCK_REALTIME,&time_spec_);
-    time_s += time_spec_.tv_sec - time_spec.tv_sec;
-    time_ms += round((time_spec_.tv_nsec - time_spec.tv_nsec)/1.0e6);
 
     assert(crypto_vec.size()==N);
 
@@ -96,8 +90,6 @@ int stage2(std::shared_ptr<socketx::Connection> conn){
     auto it = std::find(connectionList.begin(),connectionList.end(),conn);
     if(it+1 == connectionList.end() && connectionList.size()==N){
 
-        clock_gettime(CLOCK_REALTIME,&time_spec);
-
         std::vector<BigInteger> sum_vec(N,BigInteger());
         for(int i=0;i<N;++i){
             for(auto it_map = stage2_map.begin();it_map!=stage2_map.end();++it_map){
@@ -106,10 +98,6 @@ int stage2(std::shared_ptr<socketx::Connection> conn){
             sum_vec[i] %= M;
             cout<<bigIntegerToString(sum_vec[i])<<endl;
         }
-
-        clock_gettime(CLOCK_REALTIME,&time_spec_);
-        time_s += time_spec_.tv_sec - time_spec.tv_sec;
-        time_ms += round((time_spec_.tv_nsec - time_spec.tv_nsec)/1.0e6);
 
         /* fout.open("./data/aggregator_logs", std::ofstream::out | std::ofstream::app);
         fout<<"fd = "<<conn->getFD()<<" "<<"sum_vec = "<<endl;
