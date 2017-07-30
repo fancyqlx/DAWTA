@@ -78,8 +78,8 @@ def drawPic(x,y,anti_x,anti_y,labelx,labely,filename):
 if __name__ == "__main__":
     x,y,z = travelFiles_byN(0)
     anti_x, anti_y, anti_z = travelFiles_byN(1)
-    drawPic(x,y,anti_x,anti_y,"n","Message Compelxity (bits)","n-bits")
-    drawPic(x,z,anti_x,anti_z,"n","Time (ms)","n-time")
+    drawPic(x,y,anti_x,anti_y,"n","Communication Cost (bits)","n-bits")
+    drawPic(x,z,anti_x,anti_z,"n","Computation Time (ms)","n-time")
 
     ''' x,y,z = travelFiles_bybits()
     drawPic(x,y,"M (bits)","Message Compelxity (bits)","M-bits")
