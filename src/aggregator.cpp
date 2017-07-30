@@ -44,7 +44,6 @@ int stage1(std::shared_ptr<socketx::Connection> conn){
     auto it = std::find(connectionList.begin(),connectionList.end(),conn);
     if(it+1 == connectionList.end() && connectionList.size()==N){
 
-        clock_gettime(CLOCK_REALTIME,&time_spec);
         
         for(auto it_vec=connectionList.begin();it_vec!=connectionList.end();++it_vec){
             if(it_vec==connectionList.begin())
@@ -52,10 +51,6 @@ int stage1(std::shared_ptr<socketx::Connection> conn){
             else
                 (*it_vec)->sendmsg(stage1_map[*(it_vec-1)]);
         }
-
-        clock_gettime(CLOCK_REALTIME,&time_spec_);
-        time_s += time_spec_.tv_sec - time_spec.tv_sec;
-        time_ms += round((time_spec_.tv_nsec - time_spec.tv_nsec)/1.0e6);
 
         return 2;
     }
