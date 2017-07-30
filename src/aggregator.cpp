@@ -8,7 +8,7 @@ int N = config.first;
 BigInteger M = config.second; */
 
 
-long  time_ms; // Milliseconds
+long double  time_ms; // Milliseconds
 time_t  time_s;  // Seconds
 struct timespec time_spec;
 struct timespec time_spec_;
@@ -161,11 +161,14 @@ int stage3(std::shared_ptr<socketx::Connection> conn){
     auto it = std::find(connectionList.begin(),connectionList.end(),conn);
     if(it+1 == connectionList.end() && connectionList.size()==N){
 
-        clock_gettime(CLOCK_REALTIME,&time_spec);
+        
 
         /*bitComplexity*/
-        bitComplexity += recursion(range,stage3_map,0,static_cast<unsigned long long>(std::pow(N,5)),N);
+        auto data = recursion(range,stage3_map,0,static_cast<unsigned long long>(std::pow(N,5)),N);
+        bitComplexity += data.first;
+        time_ms += data.second;
 
+        clock_gettime(CLOCK_REALTIME,&time_spec);
         std::string rangeStr = "";
         for(auto it_vec=range.begin();it_vec!=range.end();++it_vec){
             rangeStr += std::to_string(it_vec->first) + " " + std::to_string(it_vec->second) + " ";
@@ -177,8 +180,8 @@ int stage3(std::shared_ptr<socketx::Connection> conn){
         fout.close(); */
 
         clock_gettime(CLOCK_REALTIME,&time_spec_);
-        time_s += time_spec_.tv_sec - time_spec.tv_sec;
-        time_ms += round((time_spec_.tv_nsec - time_spec.tv_nsec)/1.0e6);
+        time_s += (time_spec_.tv_sec - time_spec.tv_sec);
+        time_ms += static_cast<long double>(time_spec_.tv_nsec - time_spec.tv_nsec)/(1.0e6);
 
         msg = socketx::Message(const_cast<char *>(rangeStr.c_str()),rangeStr.size()+1);
         for(auto it_list = connectionList.begin();it_list!=connectionList.end();++it_list){
@@ -206,19 +209,15 @@ int stage4(std::shared_ptr<socketx::Connection> conn, socketx::EventLoop *loop_)
     auto it = std::find(connectionList.begin(),connectionList.end(),conn);
     if(it+1 == connectionList.end() && connectionList.size()==N){
 
-        clock_gettime(CLOCK_REALTIME,&time_spec);
+        
 
         /*Begin to simulate stage4*/
-        finalResults = simulateStage4(stage3_map, stage4_map, bitComplexity);
+        finalResults = simulateStage4(stage3_map, stage4_map, bitComplexity, time_ms);
 
         assert(finalResults.size() == N);
         
 
         cout<<"All the tasks is finished..............!"<<endl;
-
-        clock_gettime(CLOCK_REALTIME,&time_spec_);
-        time_s += time_spec_.tv_sec - time_spec.tv_sec;
-        time_ms += round((time_spec_.tv_nsec - time_spec.tv_nsec)/1.0e6);
 
         ofstream fout("./data/aggregator_logs", std::ofstream::out | std::ofstream::app);
         fout<<"finalResults = ";
@@ -229,7 +228,7 @@ int stage4(std::shared_ptr<socketx::Connection> conn, socketx::EventLoop *loop_)
         fout.close();
 
         fout.open("./data/results_N="+std::to_string(N)+"_bits="+std::to_string(bits), std::ofstream::out | std::ofstream::app);
-        fout<<"N="<<N<<", "<<"Bits="<<bitComplexity/9<<", "<<"Time="<<std::to_string(time_s*1000+time_ms)<<endl;
+        fout<<"N="<<N<<", "<<"Bits="<<bitComplexity/9<<", "<<"Time="<<std::to_string(static_cast<long double>(time_s*1000+time_ms))<<endl;
         fout.close();
         /*close the server*/
         loop_->quit();

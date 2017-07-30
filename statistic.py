@@ -9,12 +9,12 @@ def getInput():
 
 def getData(line):
     obj = re.search(r"Bits=(.*), Time=(.*)", line)
-    return int(obj.group(1)), int(obj.group(2))
+    return float(obj.group(1)), float(obj.group(2))
 
 def average(f):
     lines = f.readlines()
-    sum_bits = 0
-    sum_time = 0
+    sum_bits = 0.0
+    sum_time = 0.0
     num = 0
     for line in lines:
         bits, time = getData(line)
@@ -43,8 +43,8 @@ def travelFiles_byN(anti):
                     print "statistic file: ", filename
                     x.append(N+i*10)
                     datay, dataz = average(f)
-                    y.append(datay)
-                    z.append(dataz)
+                    y.append(round(datay,2))
+                    z.append(round(dataz,2))
     return x, y, z
 
 ''' def travelFiles_bybits():

@@ -1,6 +1,7 @@
 import os
 from multiprocessing import Process
 import time
+import re
 
 
 def runParticipant():
@@ -12,8 +13,7 @@ def runAggregator():
 def runAntiAggregator():
     os.system("./src/anti_aggregator 3333")
 
-if __name__ == "__main__":
-    
+def run():
     for i in xrange(0,100):
         aggregator = Process(target=runAggregator, args=())
         participant = Process(target=runParticipant, args=())
@@ -40,5 +40,18 @@ if __name__ == "__main__":
 
         anti_aggregator.join()
         participant.join()
+
+
+if __name__ == "__main__":
+    
+    filePath = "./src/config"
+    for x in xrange(0,9):
+        with open(filePath,"w+") as f:
+            f.write("N="+str(20+x*10)+"\n")
+            f.write("bits_of_N=64\n")
+        #run experiment for one x
+        run()
+
+    
 
 print "end....."
