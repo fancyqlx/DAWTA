@@ -130,12 +130,12 @@ std::pair<size_t,long double> recursion(std::vector<std::pair<unsigned long long
     unsigned long long int point = static_cast<unsigned long long>(log2(N)/log2(log2(N)));
     if(point < 3) point = 3;
 
-    clock_gettime(CLOCK_REALTIME,&time_spec);
+   
     for(auto it=stage3_map.begin();it!=stage3_map.end();++it){
         auto randomNum = std::stoull((it->second)[0]);
         auto key1 = (it->second)[1];
         auto key2 = (it->second)[2];
-
+        
         /*Simulate encryption*/
         unsigned long long int left_s = left, right_s = left + interval;
         std::vector<int> vec(num,0);
@@ -163,7 +163,7 @@ std::pair<size_t,long double> recursion(std::vector<std::pair<unsigned long long
         bitComplexity += cryptoStr.size()*8;
 
        
-
+        clock_gettime(CLOCK_REALTIME,&time_spec);
         /*
         * Simulate decryption
         * Construct vector of cryptoStr
@@ -177,10 +177,11 @@ std::pair<size_t,long double> recursion(std::vector<std::pair<unsigned long long
             begin = pos + 1;
         }
         crypto_map[it->first] = crypto_vec;
+        clock_gettime(CLOCK_REALTIME,&time_spec_);
+        time_ms += (static_cast<long double>(time_spec_.tv_sec - time_spec.tv_sec)*1000+
+                static_cast<long double>(time_spec_.tv_nsec - time_spec.tv_nsec)/(1.0e6));
     }
-    clock_gettime(CLOCK_REALTIME,&time_spec_);
-    time_ms += (static_cast<long double>(time_spec_.tv_sec - time_spec.tv_sec)*1000+
-                static_cast<long double>(time_spec_.tv_nsec - time_spec.tv_nsec)/(1.0e6))/N;
+    
     
     
     /*Compute the ball of each partition*/
@@ -191,8 +192,8 @@ std::pair<size_t,long double> recursion(std::vector<std::pair<unsigned long long
             sum_vec[i] += (it_map->second)[i];
         }
         clock_gettime(CLOCK_REALTIME,&time_spec_);
-        time_ms += (static_cast<long double>(time_spec_.tv_sec - time_spec.tv_sec)*1000+
-                    static_cast<long double>(time_spec_.tv_nsec - time_spec.tv_nsec)/(1.0e6))/N;
+        time_ms += static_cast<long double>(time_spec_.tv_sec - time_spec.tv_sec)*1000+
+                    static_cast<long double>(time_spec_.tv_nsec - time_spec.tv_nsec)/(1.0e6);
 
         sum_vec[i] %= M;
         //cout<<"recursion: sum_vec = "<<sum_vec[i]<<endl;
@@ -232,7 +233,7 @@ std::vector<BigInteger> simulateStage4(const std::map<std::shared_ptr<socketx::C
     for(int i=1;i<=N;++i){
 
         BigInteger oneRound = BigInteger();
-        clock_gettime(CLOCK_REALTIME,&time_spec);
+       
         for(auto it=stage3_map.begin();it!=stage3_map.end();++it){
             auto randomNum = std::stoull((it->second)[0]);
             auto key1 = (it->second)[1];
@@ -254,15 +255,17 @@ std::vector<BigInteger> simulateStage4(const std::map<std::shared_ptr<socketx::C
             
             bitComplexity += cryptoStr.size()*8;
 
+             clock_gettime(CLOCK_REALTIME,&time_spec);
             /*
             * Simulate decryption
             * Get the result of one round
             */
             oneRound += stringToBigInteger(cryptoStr);
+            clock_gettime(CLOCK_REALTIME,&time_spec_);
+            time_ms += (static_cast<long double>(time_spec_.tv_sec - time_spec.tv_sec)*1000+
+                        static_cast<long double>(time_spec_.tv_nsec - time_spec.tv_nsec)/(1.0e6));
         }
-        clock_gettime(CLOCK_REALTIME,&time_spec_);
-        time_ms += (static_cast<long double>(time_spec_.tv_sec - time_spec.tv_sec)*1000+
-                        static_cast<long double>(time_spec_.tv_nsec - time_spec.tv_nsec)/(1.0e6))/N;
+        
 
         oneRound %= M;
         ret.push_back(oneRound);
