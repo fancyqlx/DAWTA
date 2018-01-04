@@ -71,6 +71,7 @@ def drawPic(x,y,anti_x,anti_y,labelx,labely,filename):
     plt.plot(x,y,"r-o",anti_x,anti_y,"--o")
     plt.xlabel(labelx)
     plt.ylabel(labely)
+    plt.subplots_adjust(left=0.15,right=0.95)
     plt.savefig("./data/"+filename+".eps",format='eps')
     plt.show()
     

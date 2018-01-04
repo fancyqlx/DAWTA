@@ -114,7 +114,6 @@ int stage2(std::shared_ptr<socketx::Connection> conn){
         for(auto it_vec=connectionList.begin();it_vec!=connectionList.end();++it_vec){
             (*it_vec)->sendmsg(msg);
         }
-
         return 3;
     }
     return 2;
@@ -173,11 +172,11 @@ int stage3(std::shared_ptr<socketx::Connection> conn){
         for(auto it_vec=range.begin();it_vec!=range.end();++it_vec){
             rangeStr += std::to_string(it_vec->first) + " " + std::to_string(it_vec->second) + " ";
         }
-        /* cout<<"rangeStr: "<<rangeStr<<endl;
-
+        cout<<"rangeStr: "<<rangeStr<<endl;
+        ofstream fout("./data/aggregator_logs", std::ofstream::out | std::ofstream::app);
         fout.open("./data/aggregator_logs", std::ofstream::out | std::ofstream::app);
         fout<<"rangeStr = "<<rangeStr<<endl;
-        fout.close(); */
+        fout.close();
 
         clock_gettime(CLOCK_REALTIME,&time_spec_);
         time_s += (time_spec_.tv_sec - time_spec.tv_sec);
