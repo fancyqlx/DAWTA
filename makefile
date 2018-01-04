@@ -32,4 +32,4 @@ $(DIR_SRC)/%.o:$(DIR_SRC)/%.cpp
 
 clean:
 	rm -f $(DIR_SRC)/aggregator $(DIR_SRC)/anti_aggregator $(DIR_SRC)/participant \
-	$(DIR_SRC)/baseline_participant $(DIR_SRC)/baseline_aggregator
+	$(DIR_SRC)/baseline_participant $(DIR_SRC)/baseline_aggregator $(DIR_SRC)/*.o
