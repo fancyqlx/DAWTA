@@ -26,6 +26,7 @@ using std::endl;
 using std::cin;
 
 #include <vector>
+using std::vector;
 #include <queue>
 #include <bitset>
 #include <algorithm>
@@ -77,6 +78,7 @@ const int ZERO = 0;
 extern int N;
 extern BigInteger M;
 extern int bits;
+extern int K;
 
 BigInteger generateY(BigInteger x);
 
@@ -101,6 +103,8 @@ std::vector<BigInteger> simulateStage4(const std::map<std::shared_ptr<socketx::C
 							const std::map<int, std::shared_ptr<socketx::Connection>> &stage4_map, 
 							size_t &bitComplexity, long double &time_us);
 
-std::tuple<int,int,BigInteger> readConfig();
+std::tuple<int,int,int,BigInteger> readConfig();
+
+std::vector<int> prime();
 
 #endif

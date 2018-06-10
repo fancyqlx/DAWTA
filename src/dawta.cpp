@@ -3,13 +3,15 @@
 auto config = readConfig();
 int N = std::get<0>(config);
 int bits = std::get<1>(config);
-BigInteger M = std::get<2>(config);
+int K = std::get<2>(config);
+BigInteger M = std::get<3>(config);
 
-std::tuple<int,int,BigInteger> readConfig(){
+std::tuple<int,int,int,BigInteger> readConfig(){
     ifstream fin("./src/config",ifstream::in);
     int N;
     BigInteger M;
     int bits;
+    int K;
 
     std::string line;
     getline(fin,line);
@@ -21,9 +23,16 @@ std::tuple<int,int,BigInteger> readConfig(){
     pos = line.find("=");
     value = line.substr(pos+1);
     bits = std::stoi(value); 
+
     M = generateRandom(std::stoi(value));
 
-    return std::make_tuple(N,bits,M);
+    getline(fin,line);
+    pos = line.find("=");
+    value = line.substr(pos+1);
+    K = std::stoi(value); 
+
+    
+    return std::make_tuple(N,bits,K,M);
 }
 
 
@@ -354,3 +363,30 @@ size_t anti_recursion(std::vector<std::pair<unsigned long long int,unsigned long
     }
     return bitComplexity;
 }
+
+std::vector<int> prime(){
+    int array[1000];//数组array标记是否为素数  
+    int n=0;  
+    for(int i=0;i<1000;i++)//所有元素初始化为1  
+        array[i]=1;  
+    for(int j=2;j<1000;j++)  
+    {  
+        if(array[j]!=0)  
+            for(int k=j+j;k<N;)  
+            {  
+                if(k%j==0)  
+                    array[k]=0;  
+                k=k+j;  
+            }  
+    }  
+
+    std::vector<int> ret;
+    for(int i=2;i<N;i++){
+        if(array[i]!=0)  
+        {  
+            ret.push_back(i); 
+        }  
+    }
+    return ret;
+}
+
