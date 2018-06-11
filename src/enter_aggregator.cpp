@@ -132,18 +132,16 @@ int stage3(std::shared_ptr<socketx::Connection> conn){
 
 
 std::string rsa_example(std::string message){
-    char privFilename[128] = "prvKey", pubFilename[128] = "pubKey";
     unsigned int keyLength = 1024;
-    double duration;
 
     MyRSA rsa;
 
     //cout << "============encrypt and decrypt================" << endl;
-    rsa.GenerateRSAKey(keyLength, privFilename, pubFilename);
-    string ciphertext = rsa.Encrypt(pubFilename, message.c_str());
+    rsa.GenerateRSAKey(keyLength);
+    string ciphertext = rsa.Encrypt(message.c_str());
     //cout << "The cipher is : " << ciphertext << endl;
 
-    string decrypted = rsa.Decrypt(privFilename, ciphertext.c_str());
+    string decrypted = rsa.Decrypt(ciphertext.c_str());
     //cout << "The recover is : " << decrypted << endl;
     return ciphertext;
 }
@@ -170,10 +168,10 @@ void enterSim(size_t &bitComplexity, long double &time_ms){
         for(int j=0; j<N+i;++j){
             // for each OTN, we need run N+i RSA
             std::string str = rsa_example(std::to_string(seq[j]));
-            bitComplexity += 2*str.size()*8;
+            bitComplexity += str.size()*8;
         }
         // each participant need receive Yn and k
-        bitComplexity += (bigIntegerToString(Yn).size()*8+std::to_string(k).size()*8)*(N+i);
+        bitComplexity += (bigIntegerToString(Yn).size()*8+std::to_string(k).size()*8)*(N+i)*2;
         clock_gettime(CLOCK_REALTIME,&time_spec_);
         time_ms += (static_cast<long double>(time_spec_.tv_sec - time_spec.tv_sec)*1000+
                             static_cast<long double>(time_spec_.tv_nsec - time_spec.tv_nsec)/(1.0e6));
@@ -252,7 +250,7 @@ int stage4(std::shared_ptr<socketx::Connection> conn, socketx::EventLoop *loop_)
         fout.close();
 
         fout.open("./data/enter_results_N+K="+std::to_string(N+K)+"_bits="+std::to_string(bits), std::ofstream::out | std::ofstream::app);
-        fout<<"N+K="<<N+K<<", "<<"Bits="<<bitComplexity/9<<", "<<"Time="<<std::to_string(static_cast<long double>(time_s*1000+time_ms))<<endl;
+        fout<<"N+K="<<N+K<<", "<<"Bits="<<bitComplexity/36<<", "<<"Time="<<std::to_string(static_cast<long double>(time_s*1000+time_ms))<<endl;
         fout.close();
         /*close the server*/
         loop_->quit();

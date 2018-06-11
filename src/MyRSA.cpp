@@ -56,18 +56,17 @@ string MyRSA::MD5File(const char * filename)
  * Output:
  * 	nothing
  */
-void MyRSA::GenerateRSAKey(unsigned int keyLength, const char *privFilename,
-		const char *pubFilename)
+void MyRSA::GenerateRSAKey(unsigned int keyLength)
 {
 	RSAES_OAEP_SHA_Decryptor priv(_rng, keyLength);
-	HexEncoder privFile(new FileSink(privFilename));
-	priv.DEREncode(privFile);
-	privFile.MessageEnd();
+	HexEncoder privStr(new StringSink(privString));
+	priv.DEREncode(privStr);
+	privStr.MessageEnd();
 
 	RSAES_OAEP_SHA_Encryptor pub(priv);
-	HexEncoder pubFile(new FileSink(pubFilename));
-	pub.DEREncode(pubFile);
-	pubFile.MessageEnd();
+	HexEncoder pubStr(new StringSink(pubString));
+	pub.DEREncode(pubStr);
+	pubStr.MessageEnd();
 }
 
 /*
@@ -79,11 +78,11 @@ void MyRSA::GenerateRSAKey(unsigned int keyLength, const char *privFilename,
  * OutPut:
  *  return the cipher
  */
-string MyRSA::Encrypt(const char * pubFilename, const char * message)
+string MyRSA::Encrypt(const char * message)
 {
-	FileSource pubFile(pubFilename, true, new HexDecoder);
+	StringSource pubStr(pubString, true, new HexDecoder);
 
-	RSAES_OAEP_SHA_Encryptor pub(pubFile);
+	RSAES_OAEP_SHA_Encryptor pub(pubStr);
 	string result;
 	StringSource(message, true,
 			new PK_EncryptorFilter(_rng, pub,
@@ -98,11 +97,11 @@ string MyRSA::Encrypt(const char * pubFilename, const char * message)
  * Output:
  * 	return the decrypted string
  */
-string MyRSA::Decrypt(const char * privFilename, const char * ciphertext)
+string MyRSA::Decrypt(const char * ciphertext)
 {
-	FileSource privFile(privFilename, true, new HexDecoder);
+	StringSource privStr(privString, true, new HexDecoder);
 
-	RSAES_OAEP_SHA_Decryptor priv(privFile);
+	RSAES_OAEP_SHA_Decryptor priv(privStr);
 	string result;
 	StringSource(ciphertext, true,
 			new HexDecoder(

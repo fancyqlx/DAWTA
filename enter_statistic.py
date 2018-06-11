@@ -27,14 +27,14 @@ def average(f):
 
 def travelFiles_byN(anti):
     dirPath = "./data"
-    N = 20
+    N = 50
     K = 10
     bits = 64
     x = []
     y = []
     z = []
     files = os.listdir(dirPath)
-    for i in xrange(0,10):
+    for i in xrange(0,6):
         filename = "results_N="+str(N+i*10)+"_bits="+str(bits)
         if anti:
             filename = "enter_results_N+K="+str(N-10+K+i*10)+"_bits="+str(bits)
@@ -74,6 +74,7 @@ def drawPic(x,y,anti_x,anti_y,labelx,labely,filename):
     plt.ylabel(labely)
     plt.subplots_adjust(left=0.15,right=0.95)
     plt.savefig("./data/"+filename+".png",format='png')
+    plt.savefig("./data/"+filename+".eps",format='eps')
     plt.show()
     
 

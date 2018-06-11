@@ -43,14 +43,16 @@ public:
 	MyRSA();
 	~MyRSA();
 
+	std::string privString;
+	std::string pubString;
+
 	string MD5(const char * message);
 	string MD5File(const char * filename);
 
-	void GenerateRSAKey(unsigned int keyLength, const char *privFilename,
-			const char *pubFilename);
+	void GenerateRSAKey(unsigned int keyLength);
 
-	string Encrypt(const char * pubFilename, const char * message);
-	string Decrypt(const char * privFilename, const char * cipher);
+	string Encrypt(const char * message);
+	string Decrypt(const char * cipher);
 private:
 	AutoSeededRandomPool _rng;
 };

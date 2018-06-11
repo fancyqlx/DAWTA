@@ -12,7 +12,7 @@ def runAggregator():
 
 
 def run():
-    for i in xrange(0,10):
+    for i in xrange(0,5):
         aggregator = Process(target=runAggregator, args=())
         participant = Process(target=runParticipant, args=())
 
@@ -29,9 +29,9 @@ def run():
 if __name__ == "__main__":
     
     filePath = "./src/config"
-    for x in xrange(6,9):
+    for x in xrange(5,6):
         with open(filePath,"w+") as f:
-            f.write("N="+str(10)+"\n")
+            f.write("N="+str(40)+"\n")
             f.write("bits_of_N=64\n")
             f.write("K="+str(10+x*10)+"\n")
         #run experiment for one x

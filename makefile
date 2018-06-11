@@ -10,6 +10,7 @@ CFLAGS += -I./socketx/src -I./bigint -I./cryptopp -std=c++11 \
 DAWTA: $(DIR_SRC)/aggregator $(DIR_SRC)/anti_aggregator $(DIR_SRC)/participant \
 	$(DIR_SRC)/baseline_participant $(DIR_SRC)/baseline_aggregator \
 	$(DIR_SRC)/enter_participant $(DIR_SRC)/enter_aggregator \
+	$(DIR_SRC)/leave_participant $(DIR_SRC)/leave_aggregator \
 
 $(DIR_SRC)/aggregator: $(DIR_SRC)/dawta.o $(DIR_SRC)/aggregator.o
 	g++ $(DIR_SRC)/dawta.o $(DIR_SRC)/aggregator.o $(CFLAGS) -o $(DIR_SRC)/aggregator
@@ -31,6 +32,12 @@ $(DIR_SRC)/enter_aggregator: $(DIR_SRC)/dawta.o $(DIR_SRC)/MyRSA.o $(DIR_SRC)/en
 
 $(DIR_SRC)/enter_participant: $(DIR_SRC)/dawta.o $(DIR_SRC)/enter_participant.o
 	g++ $(DIR_SRC)/dawta.o $(DIR_SRC)/enter_participant.o $(CFLAGS) -o $(DIR_SRC)/enter_participant
+
+$(DIR_SRC)/leave_aggregator: $(DIR_SRC)/dawta.o $(DIR_SRC)/MyRSA.o $(DIR_SRC)/leave_aggregator.o
+	g++ $(DIR_SRC)/dawta.o $(DIR_SRC)/MyRSA.o $(DIR_SRC)/leave_aggregator.o $(CFLAGS) -o $(DIR_SRC)/leave_aggregator
+
+$(DIR_SRC)/enter_participant: $(DIR_SRC)/dawta.o $(DIR_SRC)/leave_participant.o
+	g++ $(DIR_SRC)/dawta.o $(DIR_SRC)/leave_participant.o $(CFLAGS) -o $(DIR_SRC)/leave_participant
 
 $(DIR_SRC)/%.o:$(DIR_SRC)/%.cpp
 	g++ $(CFLAGS) -c $< -o $@
